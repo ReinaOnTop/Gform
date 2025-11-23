@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cyber Browser</title>
+  <title>Bypass Browser</title>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
@@ -83,7 +84,6 @@
       background: white;
     }
 
-    
     /* PASSWORD OVERLAY */
     #lockscreen {
       position: fixed;
@@ -114,7 +114,15 @@
       font-weight: 600;
       color: black;
     }
+
+    /* Mobile mode FIXED */
+    @media (max-width: 600px) {
+      #toolbar { padding: 12px; gap: 8px; }
+      button { padding: 10px; font-size: 14px; }
+      #address-bar { font-size: 16px; }
+    }
   </style>
+
 </head>
 <body>
 
@@ -137,10 +145,8 @@
   <iframe id="browser" allow="fullscreen; geolocation; camera; microphone" allowfullscreen></iframe>
 
   <script>
-    /* -------------------------
-       PASSWORD SYSTEM
-    ------------------------- */
-    const PASSWORD = "secret123"; // Change this to your password
+    /* PASSWORD SYSTEM */
+    const PASSWORD = "anjay123";
 
     document.getElementById("unlockBtn").onclick = () => {
       const input = document.getElementById("passInput").value;
@@ -151,28 +157,7 @@
       }
     };
 
-
-    /* Mobile friendly */
-    @media (max-width: 600px) {
-      #toolbar { padding: 12px; gap: 8px; }
-      button { padding: 10px; font-size: 14px; }
-      #address-bar { font-size: 16px; } /* prevents zoom on iOS */
-    }
-  </style>
-</head>
-<body>
-
-  <div id="toolbar">
-    <button id="back">Back</button>
-    <button id="forward">Forward</button>
-    <button id="reload">Reload</button>
-    <input type="text" id="address-bar" placeholder="Paste your Google Form link here" value="">
-    <button id="go">Go</button>
-  </div>
-
-  <iframe id="browser" allow="fullscreen; geolocation; camera; microphone" allowfullscreen></iframe>
-
-  <script>
+    /* Browser logic */
     const iframe = document.getElementById('browser');
     const input = document.getElementById('address-bar');
 
@@ -189,8 +174,8 @@
     document.getElementById('forward').onclick = () => history.forward();
     document.getElementById('reload').onclick = () => iframe.contentWindow.location.reload();
 
-    // Auto-focus the bar
     input.focus();
   </script>
+
 </body>
 </html>
