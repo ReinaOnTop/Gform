@@ -144,6 +144,21 @@
 
   <iframe id="browser" allow="fullscreen; geolocation; camera; microphone" allowfullscreen></iframe>
 
+  <!-- Toggle Toolbar Button -->
+  <button id="toggleToolbar" style="
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    z-index: 20;
+  ">Hide Toolbar</button>
+
   <script>
     /* PASSWORD SYSTEM */
     const PASSWORD = "anjay123";
@@ -157,31 +172,16 @@
       }
     };
 
-    <!-- Add this right before closing </body> -->
-<button id="toggleToolbar" style="
-  position: fixed;
-  left: 10px;
-  bottom: 10px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: none;
-  background: rgba(255,255,255,0.2);
-  color: white;
-  backdrop-filter: blur(10px);
-  cursor: pointer;
-  z-index: 20;
-">Hide Toolbar</button>
+    /* Toggle Toolbar */
+    const toolbar = document.getElementById('toolbar');
+    const toggleBtn = document.getElementById('toggleToolbar');
+    let hidden = false;
 
-
-  const toolbar = document.getElementById('toolbar');
-  const toggleBtn = document.getElementById('toggleToolbar');
-  let hidden = false;
-
-  toggleBtn.onclick = () => {
-    hidden = !hidden;
-    toolbar.style.display = hidden ? 'none' : 'flex';
-    toggleBtn.textContent = hidden ? 'Show Toolbar' : 'Hide Toolbar';
-  };
+    toggleBtn.onclick = () => {
+      hidden = !hidden;
+      toolbar.style.display = hidden ? 'none' : 'flex';
+      toggleBtn.textContent = hidden ? 'Show Toolbar' : 'Hide Toolbar';
+    };
 
     /* Browser logic */
     const iframe = document.getElementById('browser');
