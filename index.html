@@ -3,14 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini Browser – Google Forms Edition</title>
+  <title>Cyber Browser</title>
   <style>
-    body { margin:0; font-family:Arial, sans-serif; display:flex; flex-direction:column; height:100vh; background:#f0f0f0; }
-    #toolbar { background:#1a73e8; padding:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-    #address-bar { flex:1; padding:10px; font-size:16px; border:none; border-radius:4px; }
-    button { padding:10px 16px; background:#0d47a1; color:white; border:none; border-radius:4px; cursor:pointer; }
-    button:hover { background:#1565c0; }
-    iframe { flex:1; border:none; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      overflow: hidden;
+    }
+
+    /* Glass toolbar */
+    #toolbar {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+
+    button {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    button:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    button:active { transform: translateY(0); }
+
+    #address-bar {
+      flex: 1;
+      min-width: 300px;
+      padding: 12px 16px;
+      font-size: 15px;
+      border: none;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+    #address-bar::placeholder { color: rgba(255,255,255,0.7); }
+    #address-bar:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    #go {
+      background: #00d4ff;
+      font-weight: 600;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    }
+    #go:hover {
+      background: #00e8ff;
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+    }
+
+    iframe {
+      flex: 1;
+      border: none;
+      background: white;
+    }
+
+    /* Mobile friendly */
+    @media (max-width: 600px) {
+      #toolbar { padding: 12px; gap: 8px; }
+      button { padding: 10px; font-size: 14px; }
+      #address-bar { font-size: 16px; } /* prevents zoom on iOS */
+    }
   </style>
 </head>
 <body>
@@ -19,16 +97,11 @@
     <button id="back">Back</button>
     <button id="forward">Forward</button>
     <button id="reload">Reload</button>
-    <input type="text" id="address-bar" placeholder="Paste your Google Form URL here" value="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform">
+    <input type="text" id="address-bar" placeholder="Paste your Google Form link here" value="">
     <button id="go">Go</button>
   </div>
 
-  <!-- This is the magic part: no sandbox + allow-same-origin etc. -->
-  <iframe id="browser"
-    allow="fullscreen; geolocation; camera; microphone"
-    allowfullscreen
-    loading="lazy">
-  </iframe>
+  <iframe id="browser" allow="fullscreen; geolocation; camera; microphone" allowfullscreen></iframe>
 
   <script>
     const iframe = document.getElementById('browser');
@@ -37,22 +110,18 @@
     function load() {
       let url = input.value.trim();
       if (!url) return;
-      if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        url = 'https://' + url;
-      }
+      if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
       iframe.src = url;
     }
 
     document.getElementById('go').onclick = load;
     input.addEventListener('keypress', e => { if (e.key === 'Enter') load(); });
-
     document.getElementById('back').onclick = () => history.back();
     document.getElementById('forward').onclick = () => history.forward();
     document.getElementById('reload').onclick = () => iframe.contentWindow.location.reload();
 
-    // Optional: auto-load when you paste a link
+    // Auto-focus the bar
     input.focus();
-    input.select();
   </script>
 </body>
 </html>
