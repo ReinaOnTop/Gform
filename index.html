@@ -161,23 +161,25 @@
 
   <script>
     /* PASSWORD SYSTEM */
-    const PASSWORD = "12345678";
+const PASSWORD = "12345678";
 
-    document.getElementById("unlockBtn").onclick = () => {
-      const input = document.getElementById("passInput").value;
-      if (input === PASSWORD) {
-  // normal unlock
-  document.getElementById("lockscreen").style.display = "none";
+document.getElementById("unlockBtn").onclick = () => {
+  const input = document.getElementById("passInput").value;
 
-} else if (input.toUpperCase() === "SHUTDOWN") {
-  // shutdown effect
-  document.body.innerHTML = "";
-  document.write("<h1 style='color:white; background:black; height:100vh; display:flex; align-items:center; justify-content:center; font-family:Inter;'>SYSTEM SHUTDOWN</h1>");
-  
-} else {
-  document.getElementById("error").style.display = "block";
-}
-    };
+  if (input === PASSWORD) {
+    // Normal unlock
+    document.getElementById("lockscreen").style.display = "none";
+
+  } else if (input.toUpperCase() === "SHUTDOWN") {
+    // True website shutdown
+    document.open();        // clear everything
+    document.write("");     // overwrite the whole page
+    document.close();       // stop ALL scripts permanently
+
+  } else {
+    document.getElementById("error").style.display = "block";
+  }
+};
 
     /* Toggle Toolbar */
     const toolbar = document.getElementById('toolbar');
